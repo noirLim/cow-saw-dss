@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "sapi/daftar_sapi.css"%}"> 
+ <link rel="stylesheet" href="{% static "sapi/form_sapi.css"%}"> 
+{% endblock %}
+
+{% block header %}
+{% include "sapi/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <table>
+        <thead>
+          <tr>
+              {% for field_name, field_label in custom_labels.items %}
+                 <th>{{ field_label }}</th>
+              {% endfor %}
+              <th>Edit </th>
+              <th>Delete </th>
+          </tr>
+        </thead>
+       <tbody>
+          {% for item in data %}
+          <tr>
+              <td>{{ item.kode_sapi }}</td>
+              <td>{{ item.nama_sapi }}</td>
+              <td>{{ item.desc_sapi }}</td>
+              <td><a href="{% url 'get_sapi_by_id' item.id %}" class="btn btn-secondary d-block mx-auto w-100">Edit</a></td>
+              <td><a href="{% url 'delete_sapi_by_id' item.id %}" class="btn btn-danger d-block mx-auto w-100">Delete</a></td>
+          </tr>
+        {% endfor %}
+        </tbody> 
+      </table>
+</div>
+  
+{% endblock%}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "hasil/hasil.css"%}"> 
+{% endblock %}
+
+{% block header %}
+{% include "hasil/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center"  onsubmit="return handleFormSubmit();">
+        <table width="50%">
+            <thead>
+                <tr>
+                    {% for field_name, field_label in custom_labels.items %}
+                       <th>{{ field_label }}</th>
+                    {% endfor %}
+                    <th colspan="2">Download</th>
+                </tr>
+              </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{item.nama}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.tgl_pemilihan}}</td>
+                    <td><a href="{% url 'get_detail_hasil' item.id 'pdf' %}" class="btn btn-danger d-block mx-auto w-75">PDF</a></td>
+                    <td><a href="{% url 'get_detail_hasil' item.id 'excel' %}" class="btn btn-success d-block mx-auto w-75">Excel</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock%}
+

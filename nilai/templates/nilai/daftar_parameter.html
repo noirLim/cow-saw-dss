@@ -1,0 +1,49 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "nilai/nilai_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "nilai/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center">
+        <table width="70%">
+            <thead>
+                <tr>
+                 {% for field_name, field_label in custom_labels.items %}
+                    <th>{{ field_label }}</th>
+                 {% endfor %}
+                 <th>Edit </th>
+                 <th>Delete </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{item.nama}}</td>
+                    <td>{{item.min}}</td>
+                    <td>{{item.max}}</td>
+                    <td>{{item.kriteria__nama_kriteria}}</td>
+                    <td>{{item.nilai__status}}</td>
+                    <td><a href="{% url 'get_parameter_by_id' item.id %}" class="btn btn-secondary d-block mx-auto w-50">Edit</a></td>
+                    <td><a href="{% url 'delete_parameter_by_id' item.id %}" class="btn btn-danger d-block mx-auto w-50">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container mt-5 d-flex justify-content-center">
+        {% if data.has_previous %}
+        <a href="{% url 'get_all_parameter'%}?page={{data.previous_page_number}}" class="btn btn-secondary d-block mx-1 w-25">Previous Page</a>
+        {% endif %}
+        {% if data.has_next %}
+        <a href="{% url 'get_all_parameter'%}?page={{data.next_page_number}}" class="btn btn-danger d-block mx-1 w-25">Next Page</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

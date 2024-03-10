@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "kriteria/kriteria_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "kriteria/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="mt-4 text-center">
+  {% if item %} Edit Data Kriteria Sapi 
+  {% else %} Input Data Kriteria Sapi 
+  {% endif %} 
+</h1>
+
+{% comment %} Form input detail kriteria-sapi  {% endcomment %}
+<div class="container mt-5 d-flex justify-content-center">
+    <form method="POST" action="{% if item %}{% url 'submit_kriteria_sapi_form' item.id %}{% else %}{% url 'submit_kriteria_sapi_form'  %}{% endif %}" onsubmit="return handleFormSubmit();">
+        {% csrf_token %}
+        <label for="nilai" class="form-label">{{item.nilai.label}}</label>
+        {{ form.nilai }}
+
+        <label for="kriteria" class="form-label mt-3">{{ form.kriteria.label }}</label>
+        {{ form.kriteria }}
+
+        <label for="sapi" class="form-label mt-3">{{ form.sapi.label }}</label>
+        {{ form.sapi }}
+
+        <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-submit" value="Simpan" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-cancel" value="Batal" onclick="window.location.href='{% url 'home' %}'" />
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function handleFormSubmit() {
+    alert("Form submitted successfully!");
+    return true;
+  }
+</script>
+{% endblock%}

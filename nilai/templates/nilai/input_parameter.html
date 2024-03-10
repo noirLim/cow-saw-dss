@@ -1,0 +1,51 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "nilai/nilai_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "nilai/nav.html" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="mt-4 text-center">
+    {% if item %} Edit Data Parameter
+    {% else %} Input Parameter
+    {% endif %}  
+</h1>
+
+<div class='container mt-5 d-flex justify-content-center'>
+    <form method="POST" action="{% if item %}{% url 'submit_parameter_form' item.id %}{% else %}{% url 'submit_parameter_form'  %}{% endif %}">
+        {% csrf_token %}
+        <label for="nama" class="form-label">{{ form.nama.label }}</label>
+        {{ form.nama}}
+
+        <label for="min" class="form-label mt-3">{{ form.min.label }}</label>
+        {{ form.min}}
+
+        <label for="max" class="form-label mt-3">{{ form.max.label }}</label>
+        {{ form.max}}
+
+        <label for="kriteria" class="form-label mt-3">{{ form.kriteria.label }}</label>
+        {{ form.kriteria}}
+
+        <label for="nilai" class="form-label mt-3">{{ form.nilai.label }}</label>
+        {{ form.nilai}}
+
+        <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-submit" value="Simpan" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-cancel" value="Batal" onclick="window.location.href='{% url 'home' %}'" />
+            </div>
+          </div>
+    </form>
+</div>
+
+{% endblock %}

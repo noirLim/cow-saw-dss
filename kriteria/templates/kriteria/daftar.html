@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "kriteria/kriteria_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "kriteria/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center">
+        <table width="70%">
+            <thead>
+                <tr>
+                    {% for field_name, field_label in custom_labels.items %}
+                    <th>{{ field_label }}</th>
+                 {% endfor %}
+                 <th>Edit </th>
+                 <th>Delete </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{item.nama_kriteria}}</td>
+                    <td>{{item.bobot_kriteria}}</td>
+                    <td>{{item.satuan}}</td>
+                    <td>{{item.atribut}}</td>
+                    <td><a  href="{% url 'get_kriteria_by_id' item.id %}" class="btn btn-secondary d-block mx-auto w-50">Edit</a></td>
+                    <td><a href="{% url 'delete_kriteria_by_id' item.id %}" class="btn btn-danger d-block mx-auto w-50">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

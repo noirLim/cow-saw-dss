@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "nilai/nilai_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "nilai/nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mt-4 text-center">
+    {% if item %} Edit Data Nilai 
+    {% else %} Input Nilai
+    {% endif %}  
+  </h1>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form method="POST" action="{% if item %}{% url 'submit_nilai_form' item.id %}{% else %}{% url 'submit_nilai_form'  %}{% endif %}" onsubmit="return handleFormSubmit();">
+        {% csrf_token %}
+        <label for="status" class="form-label">{{ form.status.label }}</label>
+        {{ form.status }}
+        <label for="bobot" class="form-label mt-3">{{form.bobot.label}}</label>
+        {{form.bobot}}
+
+        <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-submit" value="Simpan" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn-cancel" value="Batal" onclick="window.location.href='{% url 'home' %}'" />
+            </div>
+          </div>
+    </form>
+</div>
+{% endblock %}

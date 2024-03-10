@@ -1,0 +1,48 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "kriteria/kriteria_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "kriteria/nav.html" %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-5 d-flex justify-content-center">
+        <table width="70%">
+            <thead>
+                <tr>
+                    {% for field_name, field_label in custom_labels.items %}
+                    <th>{{ field_label }}</th>
+                 {% endfor %}
+                 <th>Edit </th>
+                 <th>Delete </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kriteria_sapi in kriteria_sapi_list %}
+                <tr>
+                    <td>{{ kriteria_sapi.nilai }}</td>
+                    <td>{{ kriteria_sapi.sapi.nama_sapi}}</td>
+                    <td>{{ kriteria_sapi.kriteria.nama_kriteria }}</td>
+                    <td><a href="{% url 'get_kriteria_sapi_by_id' kriteria_sapi.id %}" class="btn btn-secondary d-block mx-auto w-50">Edit</a></td>
+                    <td><a href="{% url 'delete_kriteria_sapi_by_id' kriteria_sapi.id %}" class="btn btn-danger d-block mx-auto w-50">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container mt-5 d-flex justify-content-center">
+        {% if kriteria_sapi_list.has_previous %}
+        <a href="{% url 'daftar_kriteria_sapi'%}?page={{kriteria_sapi_list.previous_page_number}}" class="btn btn-secondary d-block mx-1 w-25">Previous Page</a>
+        {% endif %}
+        {% if kriteria_sapi_list.has_next %}
+        <a href="{% url 'daftar_kriteria_sapi'%}?page={{kriteria_sapi_list.next_page_number}}" class="btn btn-danger d-block mx-1 w-25">Next Page</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

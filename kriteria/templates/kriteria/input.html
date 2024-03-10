@@ -1,0 +1,68 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "kriteria/kriteria_form.css"%}"> 
+{% endblock %}
+
+{% block header %}
+    {% include "kriteria/nav.html" %}
+{% endblock %}
+
+{%block content %}
+<h1 class="mt-4 text-center">
+  {% if item %} Edit Data Kriteria {{ item.nama_kriteria}}
+  {% else %} Input Kriteria
+  {% endif %}  
+</h1>
+
+{% comment %} Form input kriteria {% endcomment %}
+<div class="container mt-5 d-flex justify-content-center">
+    <form method="POST" action="{% if item %}{% url 'submit_kriteria_form' item.id %}{% else %}{% url 'submit_kriteria_form'  %}{% endif %}"  onsubmit="return handleFormSubmit();">
+    {% csrf_token %}
+
+    <label for="nama_kriteria" class="form-label">{{ form.nama_kriteria.label }}</label>
+    {{ form.nama_kriteria }}
+    
+    <label for="bobot_kriteria" class="form-label mt-3">{{ form.bobot_kriteria.label }}</label>
+    {{ form.bobot_kriteria }}
+
+    <label for="satuan" class="form-label mt-3">{{ form.satuan.label }}</label>
+    {{ form.satuan }}
+
+    <label for="atribut" class="form-label mt-3">{{ form.atribut.label }}</label>
+    <select class="form-select" name="atribut">
+      {% if item %}
+      <option value={{item.atribut}} hidden>
+        {% if item.atribut == "benefit" %} Benefit
+        {% else %} Cost
+        {% endif %}
+      </option>
+      {% endif %}
+      <option value="benefit">Benefit</option>
+      <option value="cost">Cost</option>
+    </select>
+
+    <div class="row">
+        <div class="col-6">
+          <input type="submit" class="btn-submit" value="Simpan" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <input type="submit" class="btn-cancel" value="Batal" onclick="window.location.href='{% url 'home' %}'" />
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function handleFormSubmit() {
+    alert("Form submitted successfully!");
+    return true;
+  }
+</script>
+{% endblock%}

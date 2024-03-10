@@ -1,0 +1,41 @@
+{% extends 'base_report.html' %} 
+{% load static %} 
+
+{% block css_files %} 
+ <link rel="stylesheet" href="{% static "app.css"%}"> 
+ <link rel="stylesheet" href="{% static "hasil/hasil.css"%}"> 
+
+ <style>
+    td, tr {
+        padding: 10px;
+        font-size:15px;
+    }
+    th {
+        background-color: yellow; 
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center" width="50%">
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid black;">
+        <thead>
+            <tr>
+                {% for field_name, field_label in custom_labels.items %}
+                   <th>{{ field_label }}</th>
+                {% endfor %}
+            </tr>
+          </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{forloop.counter }}</td>
+                <td>{{item.sapi__nama_sapi}}</td>
+                <td>{{item.nilai_norm}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
